@@ -31,12 +31,12 @@ arbol->insert(48);
 
 arbol->insert(91);
 
- //arbol->insert(22);
- /*
+ arbol->insert(22);
+
 arbol->insert(126);
 arbol->insert(132);
 arbol->insert(80);
-*/
+
 
   //  arbol->insert(89);
  //  arbol->insert(90);
@@ -54,9 +54,9 @@ for(int i=1;i<=arbol->hojaActual->length();i++){
    cout<< arbol->hojaActual->rove(i)->get_data()->get_data()<<endl;
 }
 */
-
+cout<<" len "<<arbol->hojaActual->length()<<endl;
    for(int i=1;i<=arbol->hojaActual->length();i++){
-
+cout<<"################"<<endl;
        if(arbol->hojaActual->rove(i)->get_data()->getlistHijoIzq()!=NULL){
        for(int j=1;j<=arbol->hojaActual->rove(i)->get_data()->getlistHijoIzq()->length();j++){
             cout<<" "<<arbol->hojaActual->rove(i)->get_data()->getlistHijoIzq()->rove(j)->get_data()->get_data()<<endl;

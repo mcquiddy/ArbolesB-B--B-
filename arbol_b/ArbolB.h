@@ -64,45 +64,85 @@ void ArbolB<T>::insert(  T new_data ){
         return;
     }
     else{
-           while(hojaActual->rove(i)!=NULL && hojaActual->rove(i)->get_data()->get_data()<new_data && i<=orden){// mueve el indice hasta obtener el dato en (i)  que es mayor que el dato ingresado
+           while(hojaActual->rove(i+1)!=NULL && hojaActual->rove(i)->get_data()->get_data()<new_data && i<=orden){// mueve el indice hasta obtener el dato en (i)  que es mayor que el dato ingresado
                i+=1;
            }
-           if(i==orden && hojaActual->rove(i-1)->get_data()->get_next()!= NULL && hojaActual->rove(i)->get_data()->get_data()<new_data){//maneja el node del extremo derecho
+           // && hojaActual->rove(i-1)->get_data()->get_next()!= NULL && hojaActual->rove(i)->get_data()->get_data()<new_data
+           if(i==orden){//maneja el node del extremo derecho
                if(hojaActual->rove(i)->get_data()->getlistHijoDer()!= NULL){
                    hojaActual=hojaActual->rove(i)->get_data()->getlistHijoDer();
                    insert(new_data);
                }
                else{
                    NodeB<T>* newNodo= new NodeB<T>(new_data);
-                   hojaActual->setPos(i+1,newNodo);
-                   cout<<":P"<<endl;
+                   hojaActual->insert_tail(newNodo);
+                   this->ordenar(hojaActual);
+                   ///Cambiar hijos
+                 int i=1;
+                   while(hojaActual->rove(i+1)!=NULL && hojaActual->rove(i)->get_data()->get_data()!=newNodo->get_data() && i<=orden){// mueve el indice hasta obtener el dato en (i)  que es mayor que el dato ingresado
+                       i+=1;
+                   }
+                   if(  hojaActual->rove(i)->get_prev()!=NULL){
+
+                       NodeB<T>* aux=hojaActual->rove(i)->get_prev()->get_data();
+                       aux->setListHijoDer(  hojaActual->rove(i)->get_data()->getlistHijoIzq());
+                   }
+                   if(  hojaActual->rove(i)->get_next()!=NULL){
+
+                        NodeB<T>* aux=hojaActual->rove(i)->get_next()->get_data();
+                        aux->setListHijoIzq(  hojaActual->rove(i)->get_data()->getlistHijoDer());
+                   }
+          ///Cambio de hijos finalizado
+//                   hojaActual->setPos(i+1,newNodo);
+                 cout<<":P"<<endl;
                    insertAux();
                }
            }
-           else if(hojaActual->rove(i)!=NULL &&  hojaActual->rove(i)->get_data()->getlistHijoIzq()!= NULL){//maneja los nodos que tiene hijos
+           else if(hojaActual->rove(i)!=NULL &&  hojaActual->rove(i)->get_data()->getlistHijoIzq()!= NULL && hojaActual->rove(i)->get_data()->get_data()>new_data ){//maneja los nodos que tiene hijos
                hojaActual=hojaActual->rove(i)->get_data()->getlistHijoIzq();
+
                insert(new_data);
            }
-           else if(hojaActual->rove(i)==NULL && hojaActual->rove(i-1)->get_data()->getlistHijoDer()!= NULL){
-               hojaActual=hojaActual->rove(i-1)->get_data()->getlistHijoDer();
+           else if(hojaActual->rove(i)!=NULL && hojaActual->rove(i)->get_data()->getlistHijoDer()!= NULL  && hojaActual->rove(i)->get_data()->get_data()<new_data){
+               hojaActual=hojaActual->rove(i)->get_data()->getlistHijoDer();
                insert(new_data);
            }
 
 
            else{
                NodeB<T>* newNodo= new NodeB<T>(new_data);
-               hojaActual->setPos(i,newNodo);
-               if(hojaActual->rove(1)->get_data()->get_data()>new_data){
-                   hojaActual->rove(1)->get_data()->setPadre(hojaActual->rove(2)->get_data()->getPadre());
-                   hojaActual->rove(2)->get_data()->setPadre(NULL);
-                   hojaActual->rove(1)->get_data()->getPadre()->setListHijoIzq(hojaActual);
+               newNodo->setPadre(hojaActual->rove(1)->get_data()->getPadre());
+               hojaActual->insert_tail(newNodo);
+               this->ordenar(hojaActual);
+//               hojaActual->setPos(i,newNodo);
+//               if(hojaActual->rove(1)->get_data()->get_data()>new_data){
+//                   hojaActual->rove(1)->get_data()->setPadre(hojaActual->rove(2)->get_data()->getPadre());
+//                   hojaActual->rove(2)->get_data()->setPadre(NULL);
+//                   hojaActual->rove(1)->get_data()->getPadre()->setListHijoIzq(hojaActual);
 
-                   if(hojaActual->length()>orden){
-                      insertAux();
-                   }
+//                   if(hojaActual->length()>orden){
+//                      insertAux();
+//                   }
+//               }
+               ///Cambiar hijos
+             int i=1;
+               while(hojaActual->rove(i+1)!=NULL && hojaActual->rove(i)->get_data()->get_data()!=newNodo->get_data() && i<=orden){// mueve el indice hasta obtener el dato en (i)  que es mayor que el dato ingresado
+                   i+=1;
                }
+               if(  hojaActual->rove(i)->get_prev()!=NULL){
+
+                   NodeB<T>* aux=hojaActual->rove(i)->get_prev()->get_data();
+                   aux->setListHijoDer(  hojaActual->rove(i)->get_data()->getlistHijoIzq());
+               }
+               if(  hojaActual->rove(i)->get_next()!=NULL){
+
+                    NodeB<T>* aux=hojaActual->rove(i)->get_next()->get_data();
+                    aux->setListHijoIzq(  hojaActual->rove(i)->get_data()->getlistHijoDer());
+               }
+      ///Cambio de hijos finalizado
 
                if(hojaActual->length()>orden){
+
                    insertAux();
                }
                hojaActual=raiz;
@@ -111,6 +151,7 @@ void ArbolB<T>::insert(  T new_data ){
 
     }
 }
+    
 template<typename T>
 /**
  * @brief ArbolB<T>::ordenarAux
@@ -120,6 +161,7 @@ void ArbolB<T>::insertAux() {
 
     int datoAux;
     datoAux=hojaActual->rove((orden/2)+1)->get_data()->get_data();
+
      NodeB<T>*  newNodo= new NodeB<T>(datoAux);
        hojaActual->delete_Pos((orden/2)+1);
      if(hojaActual->rove(1)->get_data()->getPadre()==NULL){
@@ -131,18 +173,20 @@ void ArbolB<T>::insertAux() {
 
         for(int i=1; i<=orden/2;i++){
             listaArbolTempIzq->insert_tail(hojaActual->rove(i)->get_data());
+            listaArbolTempIzq->get_tail()->get_data()->setPadre(listaP->rove(1)->get_data());
 
         }
         listaArbol<NodeB<T>*>*  listaArbolTempDer= new listaArbol<NodeB<T>*>();
 
         for(int i=(orden/2)+1; i<=orden;i++){
             listaArbolTempDer->insert_tail(hojaActual->rove(i)->get_data());
+            listaArbolTempDer->get_tail()->get_data()->setPadre(listaP->rove(1)->get_data());
         }
 
 
 
-        listaArbolTempIzq->rove(1)->get_data()->setPadre(listaP->rove(1)->get_data());
-        listaArbolTempDer->rove(1)->get_data()->setPadre(listaP->rove(1)->get_data());
+//        listaArbolTempIzq->rove(1)->get_data()->setPadre(listaP->rove(1)->get_data());
+//        listaArbolTempDer->rove(1)->get_data()->setPadre(listaP->rove(1)->get_data());
         listaP->rove(1)->get_data()->setListHijoIzq(listaArbolTempIzq);
         listaP->rove(1)->get_data()->setListHijoDer(listaArbolTempDer);
 
@@ -151,42 +195,60 @@ void ArbolB<T>::insertAux() {
      }
      else{
 
-         listaArbol<NodeB<T>*>*  listaArbolTempIzq= new listaArbol<NodeB<T>*>();
+       listaArbol<NodeB<T>*>* temp=this->buscarLista(hojaActual->rove(1)->get_data()->getPadre()->get_data());
+        temp->insert_tail(newNodo);//INSERTAR NODO ALA LISTA
+
+       listaArbol<NodeB<T>*>*  listaArbolTempIzq= new listaArbol<NodeB<T>*>();
+
 
          for(int i=1; i<=orden/2;i++){
              listaArbolTempIzq->insert_tail(hojaActual->rove(i)->get_data());
+             listaArbolTempIzq->get_tail()->get_data()->setPadre(temp->get_tail()->get_data());
 
          }
          listaArbol<NodeB<T>*>*  listaArbolTempDer= new listaArbol<NodeB<T>*>();
 
          for(int i=(orden/2)+1; i<=orden;i++){
              listaArbolTempDer->insert_tail(hojaActual->rove(i)->get_data());
+             listaArbolTempDer->get_tail()->get_data()->setPadre(temp->get_tail()->get_data());
          }
+///Setear hijos
+         temp->get_tail()->get_data()->setListHijoIzq(listaArbolTempIzq);
+         temp->get_tail()->get_data()->setListHijoDer(listaArbolTempDer);
 
-         newNodo->setListHijoIzq(listaArbolTempIzq);
-         newNodo->setListHijoDer(listaArbolTempDer);
-         listaArbol<NodeB<T>*>* temp=this->buscarLista(hojaActual->rove(1)->get_data()->getPadre()->get_data());
-          int m=1;
-         while(temp->rove(m)!=NULL && temp->rove(m)->get_data()->get_data()<newNodo->get_data() && m<=orden){// mueve el indice hasta obtener el dato en (i)  que es mayor que el dato ingresado
-             m+=1;
+//          int m=1;
+//         while(temp->rove(m)!=NULL && temp->rove(m)->get_data()->get_data()<newNodo->get_data() && m<=orden){// mueve el indice hasta obtener el dato en (i)  que es mayor que el dato ingresado
+//             m+=1;
+//         }
+
+//         listaArbolTempIzq->rove(1)->get_data()->setPadre(newNodo);
+//         listaArbolTempDer->rove(1)->get_data()->setPadre(newNodo);
+
+
+
+       //  temp->setPos(m, newNodo);
+
+
+         this->ordenar(temp);
+         ///Cambiar hijos
+       int i=1;
+         while(temp->rove(i+1)!=NULL && temp->rove(i)->get_data()->get_data()!=newNodo->get_data() && i<=orden){// mueve el indice hasta obtener el dato en (i)  que es mayor que el dato ingresado
+             i+=1;
          }
+         if(  temp->rove(i)->get_prev()!=NULL){
 
-         listaArbolTempIzq->rove(1)->get_data()->setPadre(newNodo);
-         listaArbolTempDer->rove(1)->get_data()->setPadre(newNodo);
-
-
-
-         temp->setPos(m, newNodo);
-
-         if(newNodo->get_prev()!=NULL){
-             newNodo->get_prev()->setListHijoDer(newNodo->getlistHijoIzq());
+             NodeB<T>* aux=temp->rove(i)->get_prev()->get_data();
+             aux->setListHijoDer(  temp->rove(i)->get_data()->getlistHijoIzq());
          }
-         if(newNodo->get_next()!=NULL){
-             newNodo->get_next()->setListHijoIzq(newNodo->getlistHijoDer());
-         }
+         if(  temp->rove(i)->get_next()!=NULL){
 
+              NodeB<T>* aux=temp->rove(i)->get_next()->get_data();
+              aux->setListHijoIzq(  temp->rove(i)->get_data()->getlistHijoDer());
+         }
+///Cambio de hijos finalizado
 
          if(temp->length()>orden){
+              cout<<" de nuevo " <<endl;
              hojaActual=temp;
              insertAux();
          }
@@ -217,7 +279,14 @@ void ArbolB<T>::ordenar(listaArbol<NodeB<T> *> *listtemp)
          while(temp->get_next()!=NULL){
              swaptemp=temp->get_next();
              if(temp->get_data()->get_data() >swaptemp->get_data()->get_data()){
+//                 if(temp->get_prev()!=NULL){
 
+//                     swaptemp->get_data()->setListHijoDer(temp->getlistHijoDer());
+//                 }
+//                 if(newNodo->get_next()!=NULL){
+//                      cout<<" anoto " <<endl;
+//                     newNodo->get_next()->setListHijoIzq(newNodo->getlistHijoDer());
+//                 }
                  listtemp->swap(temp,swaptemp);
                  temp=listtemp->get_head();
                  swaptemp=temp->get_next();
