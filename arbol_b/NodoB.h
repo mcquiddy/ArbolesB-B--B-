@@ -13,34 +13,44 @@ class NodeB {
 private:
     NodeB<T>* next_node;
     NodeB<T>* prev_node;
-     NodeB<T>* padre;
+      NodeB<T>* padre;
     T data;
-    listaArbol<NodeB<T>*> * listHijoIzq;
-    listaArbol<NodeB<T>*> * listHijoDer;
+    listaArbol<NodeB<T>*> * listHijoIzq=0;
+    listaArbol<NodeB<T>*> * listHijoDer=0;
+     listaArbol<NodeB<T>*> * listaAux=0;
 
 public:
     NodeB(T dato) ;
     T get_data();
-     NodeB<T>* getPadre();
-     void setPadre( NodeB<T>* pPadre);
-    listaArbol<T> *getlistHijoIzq();
-    listaArbol<T> *getlistHijoDer();
+      NodeB<T> *getPadre();
+     void setPadre(NodeB<T> * pPadre);
+    listaArbol<NodeB<T>*> *getlistHijoIzq();
+
+    listaArbol<NodeB<T> *> *getlistHijoDer();
     void set_next(NodeB* next_node);
     void set_prev(NodeB* prev_node);
     NodeB* get_next();
     NodeB* get_prev();
+    void setListHijoIzq(listaArbol<NodeB<T> *> *value);
+     void setListHijoDer(listaArbol<NodeB<T> *> *value);
+
+
 };
 /**
  * Constructor of a Node
  * Setting nex_node and prev_node as 0 or NULL
  */
 template<typename T>
+
+
 NodeB<T>::NodeB(T dato){
     this->data=dato;
     this->next_node=0;
     this->prev_node=0;
-    this->listHijoIzq= new   listaArbol<NodeB<T>*>();
-      this->listHijoDer= new   listaArbol<NodeB<T>*>();
+    this->padre=0;
+    this->listHijoIzq= 0;
+    this->listHijoDer= 0;
+
 }
 /**
  * Getters and setters
@@ -78,30 +88,40 @@ template<typename T>
  * @brief NodeB::getPadre
  * @return
  */
-NodeB<T> *NodeB<T> ::getPadre()
+ NodeB<T>*  NodeB<T>::getPadre()
 {
-
+return this->padre;
 }
 template<typename T>
 /**
  * @brief NodeB::setPadre
  * @param pPadre
  */
-void NodeB<T>::setPadre(NodeB<T> *pPadre)
+void NodeB<T>::setPadre( NodeB<T> * pPadre)
 {
     this->padre=pPadre;
 }
 
 template<typename T>
-listaArbol<T> *NodeB<T>::getlistHijoIzq()
+listaArbol<NodeB<T>*> *NodeB<T>::getlistHijoIzq()
 {
     return this->listHijoIzq;
 }
 
 template<typename T>
-listaArbol<T> *NodeB<T>::getlistHijoDer()
+listaArbol<NodeB<T>*> *NodeB<T>::getlistHijoDer()
 {
     return this->listHijoDer;
+}
+template<typename T>
+void NodeB<T>::setListHijoIzq(listaArbol<NodeB<T> *> *value)
+{
+    this->listHijoIzq = value;
+}
+template<typename T>
+void NodeB<T>::setListHijoDer(listaArbol<NodeB<T> *> *value)
+{
+    this->listHijoDer= value;
 }
 
 

@@ -18,22 +18,23 @@ class listaArbol {
 private:
     Node<T>* head;
     Node<T>* tail;
-    listaArbol<T>* list_padre;
+    //listaArbol<T>* list_padre;
     listaArbol<T>* list_next;
     listaArbol<T>* list_prev;
     int Length;
 
 public:
-	void insert_head(T new_data);
+    void insert_head(T new_data);
 	void insert_tail(T new_data);
 	void delete_data(T data);
+    void setPos(int i, T data);
     void insertInOrden(T data);
 	bool isInList(T data);
     void setNext(listaArbol<T>* pNext);
-    void setPadre(listaArbol<T>* pPadre);
+   // void setPadre(listaArbol<T>* pPadre);
     void setPrev(listaArbol<T>* pPrev);
     listaArbol<T> *getNext();
-    listaArbol<T>* getPadre();
+    //listaArbol<T>* getPadre();
     listaArbol<T>* getPrev();
     void swap(Node<T>* temp, Node<T>* swap);
     Node<T>* rove(int x);
@@ -59,7 +60,7 @@ listaArbol<T>::listaArbol(){
 	head=NULL;
 	tail=NULL;
     Length=0;
-     this->list_padre=0;
+    // this->list_padre=0;
      this->list_next=0;
      this->list_prev=0;
 }
@@ -82,11 +83,58 @@ void listaArbol<T>::insert_head(T new_data){
 	}
     this->Length++;
 }
+template<typename T>
+void listaArbol<T>::setPos(int i, T data){
+    int j=1;
+    Node<T> *newNode=new Node<T>(data);
+
+    Node<T>* temp=this->head;
+
+
+
+  if(i==1){
+      temp->set_prev(newNode);
+      newNode->set_next(temp);
+      this->head=newNode;
+
+  }
+  else if(i==(length()+1)){
+        temp=this->get_tail();
+        temp->set_next(newNode);
+        newNode->set_prev(temp);
+        this->tail=newNode;
+
+  }
+  else{
+        for(j=1;j<(i-1);j++){
+            temp=temp->get_next();
+        }
+            newNode->set_next(temp->get_next());
+            newNode->set_prev(temp);
+            temp->get_next()->set_prev(newNode);
+            temp->set_next(newNode);
+
+        }
+
+
+
+this->Length++;
+}
+
 
 template<typename T>
 void listaArbol<T>::swap(Node<T> *temp, Node<T> *swap)
 {
-    if(temp==this->head){
+    if(temp==this->head && swap==this->tail){
+        temp->set_next(swap->get_next());
+        swap->set_next(temp);
+        swap->set_prev(temp->get_prev());
+        temp->set_prev(swap);
+
+        this->head=swap;
+        this->tail=temp;
+    }
+   else if(temp==this->head){
         temp->set_next(swap->get_next());
         swap->set_next(temp);
         swap->set_prev(temp->get_prev());
@@ -114,6 +162,7 @@ void listaArbol<T>::swap(Node<T> *temp, Node<T> *swap)
     }
 }
 
+
 template<typename T>
 /**
  * @brief list<T>::insert_tail
@@ -133,6 +182,8 @@ void listaArbol<T>::insert_tail(T new_data){
 	}
     this->Length++;
 }
+
+
 
 template<typename T>
 /**
@@ -267,15 +318,15 @@ template<typename T>
  {
 this->list_next=pNext;
  }
- template<typename T>
- /**
-  * @brief listaArbol::setPadre
-  * @param pPadre
-  */
- void listaArbol<T>::setPadre(listaArbol<T> *pPadre)
- {
-this->list_padre=pPadre;
- }
+// template<typename T>
+// /**
+//  * @brief listaArbol::setPadre
+//  * @param pPadre
+//  */
+// void listaArbol<T>::setPadre(listaArbol<T> *pPadre)
+// {
+//    this->list_padre=pPadre;
+// }
  template<typename T>
  /**
   * @brief listaArbol::setPrev
@@ -294,15 +345,15 @@ this->list_prev=pPrev;
  {
 return this->list_next;
  }
- template<typename T>
- /**
-  * @brief listaArbol::getPadre
-  * @return
-  */
- listaArbol<T> *listaArbol<T>::getPadre()
- {
-return this->list_padre;
- }
+// template<typename T>
+// /**
+//  * @brief listaArbol::getPadre
+//  * @return
+//  */
+// listaArbol<T> *listaArbol<T>::getPadre()
+// {
+//return this->list_padre;
+// }
  template<typename T>
  /**
   * @brief listaArbol::getPrev
@@ -426,7 +477,7 @@ void listaArbol<T>::print_list(){
     Node<T>* temp=this->head;
     cout<<"Cantidad de nodos: "<<this->Length<<endl;
 	while(temp!=NULL){
-        cout<<temp->get_data()<<" ";
+        cout<<(temp->get_data())<<" ";
 		temp=temp->get_next();
 	}
 	cout<<endl;

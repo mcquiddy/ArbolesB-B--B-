@@ -10,13 +10,14 @@
 template <typename T>
 class Node {
 private:
-	Node<T>* next_node;
-	Node<T>* prev_node;
-	T data;
+    Node<T>* next_node=0;
+    Node<T>* prev_node=0;
+    T data;
+
 
 public:
 	Node(T dato) ;
-	T get_data();
+    T get_data();
 	void set_next(Node* next_node);
 	void set_prev(Node* prev_node);
 	Node* get_next();
@@ -29,8 +30,8 @@ public:
 template<typename T>
 Node<T>::Node(T dato){
 	this->data=dato;
-	this->next_node=0;
-	this->prev_node=0;
+    this->next_node=0;
+    this->prev_node=0;
 }
 /**
  * Getters and setters
@@ -63,7 +64,5 @@ template<typename T>
 T Node<T>::get_data(){
     return this->data;
 }
-
-
 #endif /* NODO_H_ */
 
