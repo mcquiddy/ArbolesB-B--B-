@@ -1,51 +1,41 @@
+#include <QCoreApplication>
 #include "ArbolB.h"
-#include <QApplication>
 #include <linked_listTree.h>
+#include "iostream"
 
+using namespace std;
 int main(int argc, char *argv[])
 {
- QApplication a(argc, argv);
+    QCoreApplication a(argc, argv);
 
+    ArbolB<int> * arbol= new ArbolB<int>(4);
 
+    int num=0;
+    string l="";
+    cout<<" inserte numero : ";
+    cin>>num;
+    while(true){
+        if(num==-5){
+            arbol->printTree();
+        }
 
+if(num>0){
+        arbol->insert(num);
 
+}
+if(num==-8){
+    cout<<" inserte numero a eliminar : ";
+    cin>>num;
+    arbol->borrar(num);
 
+}
 
-    ArbolB<int> * arbol= new ArbolB<int>(5);
+        cout<<" inserte numero : ";
+        cin>>num;
 
-arbol->insert(190);
-arbol->insert(57);
-arbol->insert(89);
-arbol->insert(90);
-arbol->insert(121);
+    }
 
+        arbol->printTree();
 
-arbol->insert(170);
-
-arbol->insert(35);
-
-
-
-
-arbol->insert(48);
-
-arbol->insert(91);
-
- arbol->insert(22);
-
-arbol->insert(126);
-arbol->insert(132);
-arbol->insert(80);
-arbol->printTree();
-
-
-
-
-
-
-
-
-
-
-    return 0;
+    return a.exec();
 }

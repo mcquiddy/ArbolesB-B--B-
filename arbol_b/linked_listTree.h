@@ -25,11 +25,12 @@ private:
 
 public:
     void insert_head(T new_data);
-	void insert_tail(T new_data);
-	void delete_data(T data);
+    void insert_tail(T new_data);
+    void delete_data(T data);
     void setPos(int i, T data);
     void insertInOrden(T data);
-	bool isInList(T data);
+    void clean();
+    bool isInList(T data);
     void setNext(listaArbol<T>* pNext);
    // void setPadre(listaArbol<T>* pPadre);
     void setPrev(listaArbol<T>* pPrev);
@@ -42,7 +43,7 @@ public:
     Node<T>* get_tail();
     int length();
     T* serch(T data);
-	void print_list();
+    void print_list();
     listaArbol();
     virtual ~listaArbol();
 
@@ -57,8 +58,8 @@ template<typename T>
  * @brief list<T>::list
  */
 listaArbol<T>::listaArbol(){
-	head=NULL;
-	tail=NULL;
+    head=NULL;
+    tail=NULL;
     Length=0;
     // this->list_padre=0;
      this->list_next=0;
@@ -71,16 +72,16 @@ template<typename T>
  */
 void listaArbol<T>::insert_head(T new_data){
     Node<T> *newNode=new Node<T>(new_data);
-	if(this->head==NULL){
-		head=newNode;
-		tail=head;
-	}
-	else{
+    if(this->head==NULL){
+        head=newNode;
+        tail=head;
+    }
+    else{
         Node<T>* temp=this->head;
-		newNode->set_next(temp);
-		temp->set_prev(newNode);
-		this->head=newNode;
-	}
+        newNode->set_next(temp);
+        temp->set_prev(newNode);
+        this->head=newNode;
+    }
     this->Length++;
 }
 template<typename T>
@@ -170,16 +171,16 @@ template<typename T>
  */
 void listaArbol<T>::insert_tail(T new_data){
     Node<T> *newNode=new Node<T>(new_data);
-	if(this->tail==NULL){
-		tail=newNode;
-		head=tail;
-	}
-	else{
+    if(this->tail==NULL){
+        tail=newNode;
+        head=tail;
+    }
+    else{
         Node<T>* temp=this->tail;
-		temp->set_next(newNode);
-		newNode->set_prev(temp);
-		tail=newNode;
-	}
+        temp->set_next(newNode);
+        newNode->set_prev(temp);
+        tail=newNode;
+    }
     this->Length++;
 }
 
@@ -269,6 +270,24 @@ void listaArbol<T>::insertInOrden(T data)
 
 
 }
+template<typename T>
+/**
+ * @brief listaArbol::clean: BORRA TODA LA LISTA
+ */
+void listaArbol<T>::clean()
+{
+    Node<T> *temp=this->head->get_next();
+    while(temp->get_next()!=NULL){
+            delete temp;
+            temp=this->head;
+
+    }
+    delete head;
+    delete tail;
+    head=NULL;
+    tail=NULL;
+
+}
 
 template<typename T>
 /**
@@ -284,8 +303,8 @@ template<typename T>
 
             temp=temp->get_next();
 
-		}
-	}
+        }
+    }
     else{
        temp=NULL;
 
@@ -371,19 +390,19 @@ template<typename T>
  * @return
  */
 T* listaArbol<T>::serch(T data){
-	if(this->isInList(data)){
+    if(this->isInList(data)){
         Node<T>* temp=head;
         Node<T>* result=NULL;
-		while(temp->get_next()!=NULL){
+        while(temp->get_next()!=NULL){
             if(temp->get_data()==data){
                 result=data;
-			}
-		}
+            }
+        }
         return result;
-	}
-	else{
-		return NULL;
-	}
+    }
+    else{
+        return NULL;
+    }
 }
 
 
@@ -476,17 +495,17 @@ template<typename T>
 void listaArbol<T>::print_list(){
     Node<T>* temp=this->head;
     cout<<"Cantidad de nodos: "<<this->Length<<endl;
-	while(temp!=NULL){
+    while(temp!=NULL){
         cout<<(temp->get_data())<<" ";
-		temp=temp->get_next();
-	}
-	cout<<endl;
+        temp=temp->get_next();
+    }
+    cout<<endl;
 }
 template<typename T>
 /**
  * @brief list<T>::~list
  */
 listaArbol<T>::~listaArbol(){
-	delete this;
+    delete this;
 }
 #endif /* DOUBLELINKEDLIST_H_ */

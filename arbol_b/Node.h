@@ -16,12 +16,12 @@ private:
 
 
 public:
-	Node(T dato) ;
+    Node(T dato) ;
     T get_data();
-	void set_next(Node* next_node);
-	void set_prev(Node* prev_node);
-	Node* get_next();
-	Node* get_prev();
+    void set_next(Node* next_node);
+    void set_prev(Node* prev_node);
+    Node* get_next();
+    Node* get_prev();
 };
 /**
  * Constructor of a Node
@@ -29,7 +29,7 @@ public:
  */
 template<typename T>
 Node<T>::Node(T dato){
-	this->data=dato;
+    this->data=dato;
     this->next_node=0;
     this->prev_node=0;
 }
@@ -42,7 +42,7 @@ template<typename T>
  * @return
  */
 Node<T>* Node<T>::get_next(){
-	return this->next_node;
+    return this->next_node;
 }
 template<typename T>
 /**
@@ -50,15 +50,15 @@ template<typename T>
  * @return
  */
 Node<T>* Node<T>::get_prev(){
-	return this->prev_node;
+    return this->prev_node;
 }
 template<typename T>
 void Node<T>::set_next(Node<T>* new_next_node){
-	this->next_node=new_next_node;
+    this->next_node=new_next_node;
 }
 template<typename T>
 void Node<T>::set_prev(Node<T>* new_prev_node){
-	this->prev_node=new_prev_node;
+    this->prev_node=new_prev_node;
 }
 template<typename T>
 T Node<T>::get_data(){

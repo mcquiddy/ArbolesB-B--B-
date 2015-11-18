@@ -33,6 +33,9 @@ public:
     NodeB* get_prev();
     void setListHijoIzq(listaArbol<NodeB<T> *> *value);
      void setListHijoDer(listaArbol<NodeB<T> *> *value);
+     void newListHijoIzq();
+
+     void newListHijoDer();
 
 
 };
@@ -124,7 +127,16 @@ void NodeB<T>::setListHijoDer(listaArbol<NodeB<T> *> *value)
     this->listHijoDer= value;
 }
 
-
+template<typename T>
+void NodeB<T>::newListHijoIzq()
+{
+    this->listHijoIzq = 0;
+}
+template<typename T>
+void NodeB<T>::newListHijoDer()
+{
+    this->listHijoDer= 0;
+}
 
 
 
